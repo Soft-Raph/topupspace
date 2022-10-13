@@ -1,9 +1,8 @@
 <?php
 
 use App\Helpers\ResponseHelper;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +27,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 //endpoint for reset password
 Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset.password');
+Route::post('forget-password', [PasswordController::class, 'forgetPassword'])->name('reset.password');
 
 Route::fallback(function () {
     return ResponseHelper::error(404, 'Check the endpoint and retry');
