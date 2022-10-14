@@ -3,6 +3,7 @@
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset.password');
 Route::post('forget-password', [PasswordController::class, 'forgetPassword'])->name('reset.password');
 
+//endpoint to fetch user information
+Route::get('/fetch-user-info',[UserController::class,'fetchUserInfo']);
 Route::fallback(function () {
     return ResponseHelper::error(404, 'Check the endpoint and retry');
 });
