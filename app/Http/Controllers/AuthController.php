@@ -32,7 +32,7 @@ class AuthController extends Controller
                 ]);
             }
             $tokenData = $user->createToken('API TOKEN')->plainTextToken;
-            return ResponseHelper::success($tokenData, 'User LogIn successfully');
+            return ResponseHelper::success($user,$tokenData, 'User LogIn successfully');
         } catch (\Exception $exception) {
             return ResponseHelper::error(500, $exception->getMessage());
         }
@@ -52,8 +52,9 @@ class AuthController extends Controller
                 if (! $create_user) {
                     return ResponseHelper::error(500, 'An error occurred, try again.');
                 }
+            $user = User::where('email', $request->email)->first();
             $tokenData = $create_user->createToken('API TOKEN')->plainTextToken;
-            return ResponseHelper::success($tokenData, 'User registration successfully');
+            return ResponseHelper::success($user,$tokenData, 'User registration successfully');
         } catch (\Exception $exception) {
             return ResponseHelper::error(500, $exception->getMessage());
         }

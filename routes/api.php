@@ -1,9 +1,14 @@
 <?php
 
 use App\Helpers\ResponseHelper;
+use App\Http\Controllers\AirtimeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\IdentityVerificationController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\PowerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +34,25 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('reset-password', [PasswordController::class, 'resetPassword'])->name('reset.password');
 Route::post('forget-password', [PasswordController::class, 'forgetPassword'])->name('reset.password');
 
+//endpoint to fetch user information
+Route::get('/fetch-user-info',[UserController::class,'fetchUserInfo']);
+//identity verification endpoint
+Route::post('identity/verification',[IdentityVerificationController::class,'identityVerification']);
+//get biller by category endpoint
+Route::post('airtime/billers',[AirtimeController::class,'getAirtimeBillers']);
+//biller payment endpoint to get airtime
+Route::post('airtime/payment',[AirtimeController::class,'airtimePayment']);
+//get all power biller endpoint
+Route::post('power/billers',[PowerController::class,'getpowerBillers']);
+//power customer validation endpoint
+Route::post('power/validation',[PowerController::class,'powerCustomerValidattion']);
+//power payment endpoint
+Route::post('power/validation',[PowerController::class,'powerPayment']);
+Route::get('/clear', function (){
+Artisan::call('config:clear');
+Artisan::call('cache:clear');
+echo "config and cache clear successfully";
+});
 Route::fallback(function () {
     return ResponseHelper::error(404, 'Check the endpoint and retry');
 });
-
