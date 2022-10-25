@@ -5,18 +5,28 @@ namespace App\Http\Controllers;
 use App\Exceptions\SwitchException;
 use App\Helpers\ResponseHelper;
 use App\Services\ThirdPartyApi\BillerPaymentBase;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PowerController
 {
-
+    /**
+     * @var Repository|Application|mixed
+     */
     protected $terminalId;
 
     public function __construct()
     {
         $this->terminalId =config('topupspace.terminal_id');
     }
-    public function getpowerBillers(Request $request)
+
+    /**
+     * @return JsonResponse
+     * @throws SwitchException
+     */
+    public function getPowerBillers():JsonResponse
     {
         try {
             $path ="api/v2/quickteller/billers";
@@ -27,7 +37,12 @@ class PowerController
         }
     }
 
-    public function powerCustomerValidattion(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws SwitchException
+     */
+    public function powerCustomerValidattion(Request $request):JsonResponse
     {
         try {
             $path = "api/v2/quickteller/customers/validations";
@@ -42,7 +57,11 @@ class PowerController
         }
     }
 
-    public function powerPayment()
+    /**
+     * @return JsonResponse
+     * @throws SwitchException
+     */
+    public function powerPayment():JsonResponse
     {
         try {
             $path = "api/v2/quickteller/payments/advices";
@@ -57,7 +76,11 @@ class PowerController
         }
     }
 
-    public function constructValidationData($request)
+    /**
+     * @param $request
+     * @return array[]
+     */
+    public function constructValidationData($request):array
     {
         return [
            "customers"=>[
@@ -67,7 +90,11 @@ class PowerController
         ];
     }
 
-    public function constructPaymentData($request)
+    /**
+     * @param $request
+     * @return array
+     */
+    public function constructPaymentData($request):array
     {
         return [
             "TerminalId"=>$this->terminalId,

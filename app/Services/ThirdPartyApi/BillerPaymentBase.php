@@ -2,15 +2,30 @@
 
 namespace App\Services\ThirdPartyApi;
 
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
 class BillerPaymentBase
 {
-
+    /**
+     * @var Repository|Application|mixed
+     */
     protected $baseUrl;
+    /**
+     * @var Repository|Application|mixed
+     */
     protected $clientId;
+    /**
+     * @var Repository|Application|mixed
+     */
     protected $secretKey;
+    /**
+     * @var Repository|Application|mixed
+     */
     protected $terminalId;
+
     public function __construct()
     {
         $this->baseUrl = config('topupspace.inter_switch_base_url');
@@ -19,7 +34,12 @@ class BillerPaymentBase
         $this->terminalId =config('topupspace.terminal_id');
 
     }
-    public function makeGetRequestAirtime($path)
+
+    /**
+     * @param $path
+     * @return JsonResponse
+     */
+    public function makeGetRequestAirtime($path):JsonResponse
     {
         $endpoint = "{$this->baseUrl}/{$path}";
         $code = "$this->clientId:$this->secretKey";
@@ -38,7 +58,12 @@ class BillerPaymentBase
          )->get($endpoint)->json();
     }
 
-    public function makePostRequestAirtime($path, $data)
+    /**
+     * @param $path
+     * @param $data
+     * @return JsonResponse
+     */
+    public function makePostRequestAirtime($path, $data):JsonResponse
     {
         $endpoint = "{$this->baseUrl}/{$path}";
         $code = "$this->clientId:$this->secretKey";

@@ -5,19 +5,26 @@ namespace App\Http\Controllers;
 use App\Exceptions\SwitchException;
 use App\Helpers\ResponseHelper;
 use App\Services\ThirdPartyApi\IdentityVerificationBase;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
-class IdentityVerificationController
+class IdentityVerificationController extends Controller
 {
+
     const PATH = "verifications";
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
 
     /**
      * @param Request $request
-     * @return array|mixed
+     * @return JsonResponse
      * @throws SwitchException
      */
-    public function identityVerification(Request $request): mixed
+    public function identityVerification(Request $request): JsonResponse
     {
         try {
             $response = (new IdentityVerificationBase())->makePostRequest(self::PATH, $this->constructData($request));

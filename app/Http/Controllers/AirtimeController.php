@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Services\ThirdPartyApi\BillerPaymentBase;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AirtimeController
@@ -23,10 +24,10 @@ class AirtimeController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws SwitchException
      */
-    public function getAirtimeBillers(Request $request)
+    public function getAirtimeBillers(Request $request):JsonResponse
     {
         try {
             $categoryId= $request->category_id;
@@ -40,10 +41,10 @@ class AirtimeController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws SwitchException
      */
-    public function airtimePayment(Request $request)
+    public function airtimePayment(Request $request): JsonResponse
     {
         try {
             $path = "api/v2/quickteller/payments/advices";
@@ -62,7 +63,7 @@ class AirtimeController
      * @param $request
      * @return array
      */
-    public function constructData($request)
+    public function constructData($request):array
     {
         return [
           "TerminalId"=>$this->terminalId,

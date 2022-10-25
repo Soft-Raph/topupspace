@@ -32,7 +32,7 @@ class AuthController extends Controller
                 ]);
             }
             $tokenData = $user->createToken('API TOKEN')->plainTextToken;
-            return ResponseHelper::success($tokenData, 'User LogIn successfully');
+            return ResponseHelper::success($user,$tokenData, 'User LogIn successfully');
         } catch (\Exception $exception) {
             return ResponseHelper::error(500, $exception->getMessage());
         }
